@@ -45,6 +45,11 @@ class UserRepo {
         const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
         return toCamelCase(result?.rows)[0];
     }
+
+    static async count() {
+        const { rows } = await pool.query('SELECT COUNT(*) FROM users');
+        return parseInt(rows[0].count, 10);
+    }
 }
 
 module.exports = UserRepo;
