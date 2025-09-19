@@ -19,6 +19,7 @@
   "homepage": "https://github.com/MarkiyanPyts/postgre-sql-api-access#readme",
   "dependencies": {
     "dedent": "^1.7.0",
+    "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "jest": "^30.1.3",
     "node-pg-migrate": "^8.0.3",
