@@ -16,8 +16,8 @@ class UserRepo {
         if (rows.length === 0) {
             return null;
         }
-        const [user] = toCamelCase(rows);
-        return user;
+        const users = toCamelCase(rows);
+        return users[0];
     }
 
     static async insert(user) {
