@@ -56,9 +56,9 @@ router.put('/users/:id', async (req, res) => {
 });
 
 router.delete('/users/:id', async (req, res) => {
-    const userId = req.params.id;
+    const { id } = req.params;
     try {
-        const deleted = await deleteUser(userId); // Assume this function deletes a user by ID from the database
+        const deleted = await UserRepo.delete(id); // Assume this function deletes a user by ID from the database
         if (deleted) {
             res.status(204).send();
         } else {

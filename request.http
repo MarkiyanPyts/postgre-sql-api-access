@@ -19,3 +19,6 @@ Content-Type: application/json
     "bio": "Jane Bose girl",
     "username": "jany"
 }
+
+###
+DELETE http://localhost:3005/users/1

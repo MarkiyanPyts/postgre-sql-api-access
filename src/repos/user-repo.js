@@ -36,12 +36,14 @@ class UserRepo {
             'UPDATE users SET username = $1, bio = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 RETURNING *',
             [username, bio, id]
         );
-        return result.rows[0];
+
+        const updatedUser = toCamelCase(result.rows)[0];
+        return updatedUser;
     }
 
     static async delete(id) {
         const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
-        return result.rows[0];
+        return toCamelCase(result?.rows)[0];
     }
 }
 
