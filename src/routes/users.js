@@ -14,16 +14,16 @@ router.get('/users', async (req, res) => {
 });
 
 router.get('/users/:id', async (req, res) => {
-    const userId = req.params.id;
+    const { id } = req.params;
     try {
-        const user = await getUserById(userId); // Assume this function fetches a user by ID from the database
+        const user = await UserRepo.findById(id);
         if (user) {
             res.json(user);
         } else {
             res.status(404).send('User Not Found');
         }
     } catch (error) {
-        console.error(`Error fetching user with ID ${userId}:`, error);
+        console.error(`Error fetching user with ID ${id}:`, error);
         res.status(500).send('Internal Server Error');
     }
 });

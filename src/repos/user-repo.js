@@ -1,5 +1,5 @@
 const pool = require('../pool');
-const toCamelCase = require('../utils/to-camel-case');
+const toCamelCase = require('./utils/toCamelCase');
 
 class UserRepo {
     static async find() {
@@ -11,16 +11,13 @@ class UserRepo {
     }
 
     static async findById(id) {
+        // Big Security issue
         const { rows } = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
-        if (rows.length > 0) {
-            const camelCase = {
-                ...rows[0],
-                createdAt: rows[0].created_at ? new Date(rows[0].created_at) : null,
-                updatedAt: rows[0].updated_at ? new Date(rows[0].updated_at) : null,
-            };
-            return user;
+        if (rows.length === 0) {
+            return null;
         }
-        return null;
+        const [user] = toCamelCase(rows);
+        return user;
     }
 
     static async insert(user) {
