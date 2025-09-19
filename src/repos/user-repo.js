@@ -1,14 +1,26 @@
 const pool = require('../pool');
+const toCamelCase = require('../utils/to-camel-case');
 
 class UserRepo {
     static async find() {
         const { rows } = await pool.query('SELECT * FROM users');
-        return rows;
+
+        const parsedRows = toCamelCase(rows);
+        console.log(parsedRows);
+        return parsedRows;
     }
 
     static async findById(id) {
         const { rows } = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
-        return rows[0];
+        if (rows.length > 0) {
+            const camelCase = {
+                ...rows[0],
+                createdAt: rows[0].created_at ? new Date(rows[0].created_at) : null,
+                updatedAt: rows[0].updated_at ? new Date(rows[0].updated_at) : null,
+            };
+            return user;
+        }
+        return null;
     }
 
     static async insert(user) {
