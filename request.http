@@ -1,3 +1,5 @@
+http://localhost:3005/users
+###
 http://localhost:3005/users/1
 
 ###
@@ -6,5 +8,14 @@ Content-Type: application/json
 
 {
     "bio": "Cookie Developer",
-    "username": "johndoe"
+    "username": "johndoe2"
+}
+
+###
+PUT http://localhost:3005/users/1
+Content-Type: application/json
+
+{
+    "bio": "Jane Bose girl",
+    "username": "jany"
 }

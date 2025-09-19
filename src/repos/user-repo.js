@@ -33,8 +33,8 @@ class UserRepo {
     static async update(id, user) {
         const { username, bio } = user;
         const result = await pool.query(
-            'UPDATE users SET bio = $1, username = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 RETURNING *',
-            [bio, username, id]
+            'UPDATE users SET username = $1, bio = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 RETURNING *',
+            [username, bio, id]
         );
         return result.rows[0];
     }

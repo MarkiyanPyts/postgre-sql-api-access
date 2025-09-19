@@ -40,10 +40,10 @@ router.post('/users', async (req, res) => {
 });
 
 router.put('/users/:id', async (req, res) => {
-    const userId = req.params.id;
-    const updatedUser = req.body;
+    const { id } = req.params;
+    const { username, bio } = req.body;
     try {
-        const user = await updateUser(userId, updatedUser); // Assume this function updates a user by ID in the database
+        const user = await UserRepo.update(id, { username, bio }); // Assume this function updates a user by ID in the database
         if (user) {
             res.json(user);
         } else {
