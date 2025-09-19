@@ -1,1 +1,10 @@
 http://localhost:3005/users/1
+
+###
+POST http://localhost:3005/users
+Content-Type: application/json
+
+{
+    "bio": "Cookie Developer",
+    "username": "johndoe"
+}

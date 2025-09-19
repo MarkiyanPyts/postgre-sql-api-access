@@ -29,9 +29,9 @@ router.get('/users/:id', async (req, res) => {
 });
 
 router.post('/users', async (req, res) => {
-    const newUser = req.body;
+    const { username, bio } = req.body;
     try {
-        const createdUser = await createUser(newUser); // Assume this function creates a new user in the database
+        const createdUser = await UserRepo.insert(username, bio); // Assume this function creates a new user in the database
         res.status(201).json(createdUser);
     } catch (error) {
         console.error('Error creating user:', error);

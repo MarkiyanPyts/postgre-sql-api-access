@@ -19,20 +19,22 @@ class UserRepo {
         return users[0];
     }
 
-    static async insert(user) {
-        const { name, email, bio, username } = user;
+    static async insert(username, bio) {
         const result = await pool.query(
-            'INSERT INTO users (name, email, bio, username) VALUES ($1, $2, $3, $4) RETURNING *',
-            [name, email, bio, username]
+            'INSERT INTO users (username, bio) VALUES ($1, $2) RETURNING *',
+            [username, bio]
         );
-        return result.rows[0];
+
+        const createdUser = toCamelCase(result.rows)[0];
+
+        return createdUser;
     }
 
     static async update(id, user) {
-        const { name, email, bio, username } = user;
+        const { username, bio } = user;
         const result = await pool.query(
-            'UPDATE users SET name = $1, email = $2, bio = $3, username = $4, updated_at = CURRENT_TIMESTAMP WHERE id = $5 RETURNING *',
-            [name, email, bio, username, id]
+            'UPDATE users SET bio = $1, username = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 RETURNING *',
+            [bio, username, id]
         );
         return result.rows[0];
     }
