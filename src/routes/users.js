@@ -1,10 +1,11 @@
 const express = require('express');
 
 const router = express.Router();
+const UserRepo = require('../repos/user-repo');
 
 router.get('/users', async (req, res) => {
     try {
-        const users = await getUsers(); // Assume this function fetches users from the database
+        const users = await UserRepo.find();
         res.json(users);
     } catch (error) {
         console.error('Error fetching users:', error);
