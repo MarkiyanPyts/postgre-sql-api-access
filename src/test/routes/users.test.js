@@ -14,6 +14,10 @@ beforeAll(async () => {
     });
 });
 
+afterAll(() => {
+    return pool.close();
+})
+
 it('Create a user', async () => {
     const app = buildApp();
     const startingCount = await UserRepo.count();
