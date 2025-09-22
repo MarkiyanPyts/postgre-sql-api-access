@@ -13,6 +13,10 @@ afterAll(() => {
     return context.close();
 })
 
+beforeEach(() => {
+    return context.reset();
+})
+
 it('Create a user', async () => {
     
     const app = buildApp();

@@ -60,6 +60,12 @@ class Context {
         await pool.query(format('DROP ROLE %I', this.roleName))
         await pool.close();
     }
+
+    reset() {
+        return pool.query(`
+      DELETE FROM users;
+    `);
+    }
 }
 
 module.exports = Context;
