@@ -1,55 +1,15 @@
 const request = require('supertest');
 const buildApp = require('../../app');
 const UserRepo = require('../../repos/user-repo');
-const pool = require('../../pool');
-require('dotenv').config({
-    override: true
-});
-const {randomBytes} = require("crypto");
-const migrate = require("node-pg-migrate")
-const format = require("pg-format");
-const { database } = require('pg/lib/defaults');
+const Context = require("../context.mjs")
 
+let context;
 beforeAll(async () => {
-    const roleName = 'a' + randomBytes(4).toString('hex')
-    await pool.connect({
-        user: process.env.POSTGRES_USER,
-        host: 'localhost',
-        database: process.env.TEST_POSTGRES_DB,
-        password: process.env.POSTGRES_PASSWORD,
-        port: 5432,
-    });
-
-    await pool.query(`CREATE ROLE ${roleName} WITH LOGIN PASSWORD '${roleName}'`)
-    await pool.query(`CREATE SCHEMA AUTHORIZATION ${roleName}`)
-    await pool.close()
-
-    await migrate({
-        schema: roleName,
-        direction: 'up',
-        log: () => {},
-        noLock: true,
-        dir: 'migrations',
-        databaseUrl: {
-            host: 'localhost',
-            database: process.env.TEST_POSTGRES_DB,
-            port: 5432,
-            user: roleName,
-            password: roleName,
-        }
-    })
-
-    await pool.connect({
-        user: roleName,
-        host: 'localhost',
-        database: process.env.TEST_POSTGRES_DB,
-        password: roleName,
-        port: 5432,
-    });
+    context = await Context.build();
 });
 
 afterAll(() => {
-    return pool.close();
+    return context.close();
 })
 
 it('Create a user', async () => {

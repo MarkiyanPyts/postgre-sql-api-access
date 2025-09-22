@@ -1,22 +1,17 @@
 const request = require('supertest');
 const buildApp = require('../../app');
 const UserRepo = require('../../repos/user-repo');
-const pool = require('../../pool');
-require('dotenv').config();
+const Context = require("../context.mjs")
 
+let context;
 beforeAll(async () => {
-    return pool.connect({
-        user: process.env.POSTGRES_USER,
-        host: 'localhost',
-        database: process.env.TEST_POSTGRES_DB,
-        password: process.env.POSTGRES_PASSWORD,
-        port: 5432,
-    });
+    context = await Context.build();
 });
 
 afterAll(() => {
-    return pool.close();
+    return context.close();
 })
+
 
 it('Create a user', async () => {
     const app = buildApp();
