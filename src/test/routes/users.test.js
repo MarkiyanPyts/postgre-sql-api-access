@@ -6,6 +6,7 @@ const Context = require("../context.mjs")
 let context;
 beforeAll(async () => {
     context = await Context.build();
+    console.log('Context built with role:', context);
 });
 
 afterAll(() => {
